@@ -7,10 +7,7 @@ const DUMMY_USERS = [
   { id: 'u1', name: 'Max' },
   { id: 'u2', name: 'Manuel' },
   { id: 'u3', name: 'Julie' },
-  { id: 'u3', name: 'Adam' },
-  { id: 'u3', name: 'Seba' },
-  { id: 'u3', name: 'Zbinio' },
-  { id: 'u3', name: 'Mati' },
+  { id: 'u4', name: 'Adam' },
 ];
 
 class UserFinder extends Component {
@@ -25,12 +22,18 @@ class UserFinder extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.searchTerm !== this.state.searchTerm) {
+      console.log('DID UPDATE');
       this.setState({
         filteredUsers: DUMMY_USERS.filter((user) =>
           user.name.includes(this.state.searchTerm)
         ),
       });
     }
+  }
+
+  componentDidMount() {
+    console.log('DID MOUNT');
+    this.setState({ filteredUsers: DUMMY_USERS });
   }
 
   searchChangeHandler(e) {
