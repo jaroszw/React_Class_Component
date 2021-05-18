@@ -3,19 +3,24 @@ import { Component, Fragment } from 'react';
 import Users from './Users';
 import classes from './UserFinder.module.css';
 
-const DUMMY_USERS = [
-  { id: 'u1', name: 'Max' },
-  { id: 'u2', name: 'Manuel' },
-  { id: 'u3', name: 'Julie' },
-  { id: 'u4', name: 'Adam' },
-];
+import UsersContext from '../store/users-context';
+
+// const DUMMY_USERS = [
+//   { id: 'u1', name: 'Max' },
+//   { id: 'u2', name: 'Manuel' },
+//   { id: 'u3', name: 'Julie' },
+//   { id: 'u4', name: 'Adam' },
+// ];
 
 class UserFinder extends Component {
+  // just one context per class component - alternative UseCosnumer
+  static contextType = UsersContext;
+
   constructor() {
     super();
 
     this.state = {
-      filteredUsers: DUMMY_USERS,
+      filteredUsers: [],
       searchTerm: '',
     };
   }
@@ -24,7 +29,7 @@ class UserFinder extends Component {
     if (prevState.searchTerm !== this.state.searchTerm) {
       console.log('DID UPDATE');
       this.setState({
-        filteredUsers: DUMMY_USERS.filter((user) =>
+        filteredUsers: this.context.users.filter((user) =>
           user.name.includes(this.state.searchTerm)
         ),
       });
@@ -33,7 +38,7 @@ class UserFinder extends Component {
 
   componentDidMount() {
     console.log('DID MOUNT');
-    this.setState({ filteredUsers: DUMMY_USERS });
+    this.setState({ filteredUsers: this.context.users });
   }
 
   searchChangeHandler(e) {
